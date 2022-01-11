@@ -1,4 +1,3 @@
-from flask.app import Flask
 from flask_wtf import FlaskForm
 import wtforms
 import wtforms.validators
@@ -58,3 +57,19 @@ class PostForm(FlaskForm):
         wtforms.validators.DataRequired(), wtforms.validators.Length(min=1, max=140)
     ])
     submit = wtforms.SubmitField('Submit')
+
+class ResetPasswordRequestForm(FlaskForm):
+    email = wtforms.StringField('Email', validators=[
+        wtforms.validators.DataRequired(), wtforms.validators.Email()
+    ])
+    submit = wtforms.SubmitField('Request password reset')
+
+class ResetPasswordForm(FlaskForm):
+    password = wtforms.PasswordField('Password', validators=[wtforms.validators.DataRequired()])
+    password = wtforms.PasswordField(
+        'Repeat Password', validators=[
+            wtforms.validators.DataRequired(),
+            wtforms.validators.EqualTo('password')
+        ]
+    )
+    submit = wtforms.SubmitField('Reset your password')
