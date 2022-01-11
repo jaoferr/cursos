@@ -97,13 +97,28 @@ def register():
 @login_required
 def user(username):
     user = models.User.query.filter_by(username=username).first_or_404()
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
+    page = flask.request.args.get('page', type=int)
+    posts = user.posts.order_by(models.Post.timestamp.desc())
+    paginated_posts = posts.paginate(page, app.config['POSTS_PER_PAGE'], False)
+
+    if paginated_posts.has_next:
+        next_url = flask.url_for('user', username=user.username,page=paginated_posts.next_num)
+    else:
+        next_url = None
+        
+    if paginated_posts.has_prev:
+        prev_url = flask.url_for('user', username=user.username, page=paginated_posts.prev_num)
+    else:
+        prev_url = None
+
     form = app_forms.EmptyForm()
 
-    return flask.render_template('user.html', user=user, posts=posts, form=form)
+    user_page = flask.render_template(
+        'user.html', user=user, posts=paginated_posts.items, form=form,
+        next_url=next_url, prev_url=prev_url
+    )
+
+    return user_page
 
 @app.before_request
 def update_last_seen():
