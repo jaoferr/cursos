@@ -1,5 +1,10 @@
 {% extends 'bootstrap/base.html' %}
 
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}
+
 {% block title %}
     {% if title %}
         {{ title }} - Flask Mega Tutorial 
@@ -48,7 +53,7 @@
             {% endif %}
         {% endwith %}
 
-        {# app content goes in the app_content block#}
+        {# app content goes in the app_content block #}
         {% block app_content %}{% endblock %}
     </div>
 {% endblock %}
