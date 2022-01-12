@@ -4,11 +4,11 @@ from flask_babel import _, get_locale
 from flask_login.utils import login_required
 import app.forms as app_forms
 import app.email as app_email
-from app import app
-from app import models
-from app import db
+from app import app, models, db, translate
 import werkzeug.urls
-from datetime import datetime, time
+from datetime import datetime
+import langdetect
+import time
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -17,7 +17,15 @@ from datetime import datetime, time
 def index():
     form = app_forms.PostForm()
     if form.validate_on_submit():
-        post = models.Post(body=form.post.data, author=flask_login.current_user)
+        try:
+            language = langdetect.detect(form.post.data)
+        except langdetect.LangDetectException:
+            language = ''
+        post = models.Post(
+            body=form.post.data, 
+            author=flask_login.current_user,
+            language=language
+        )
         db.session.add(post)
         db.session.commit()
         flask.flash(_('Posted!'))
@@ -244,3 +252,16 @@ def reset_password(token):
         return flask.redirect(flask.url_for('login'))
     
     return flask.render_template('reset_password.html', form=form)
+
+@app.route('/translate', methods=['POST'])
+@login_required
+def translate_text():
+    j = flask.jsonify(
+        {'text': translate.translate(
+            # flask.request.form['text'],
+            'test?',
+            flask.request.form['source_language'],
+            flask.request.form['dest_language']
+        )}
+    )
+    return j

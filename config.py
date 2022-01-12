@@ -23,3 +23,4 @@ class Config(object):
 
     # language support
     LANGUAGES = ['en', 'pt']
+    TRANSLATOR_KEY = os.environ.get('TRANSLATOR_KEY')
