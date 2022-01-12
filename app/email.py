@@ -1,7 +1,7 @@
-import flask_mail
-from app import mail
-from app import app
 import flask
+import flask_mail
+from flask_babel import _
+from app import app, mail
 from threading import Thread
 
 
@@ -23,7 +23,7 @@ def send_password_reset_email(user):
     html_body = flask.render_template('email/reset_password.html', user=user, token=token)
 
     send_email(
-        '[Flask Mega Tutorial] Password reset',
+        '[Flask Mega Tutorial]' + _('Password reset'),
         sender=app.config['ADMINS'][0],
         recipients=[user.email],
         text_body=text_body,

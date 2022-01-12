@@ -1,0 +1,226 @@
+# Portuguese translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-01-12 08:05-0300\n"
+"PO-Revision-Date: 2022-01-12 08:07-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: app/email.py:26
+msgid "Password reset"
+msgstr "Senha redefinida"
+
+#: app/forms.py:8 app/forms.py:14
+msgid "Username"
+msgstr "Nome de usuário"
+
+#: app/forms.py:9 app/forms.py:19 app/forms.py:69
+msgid "Password"
+msgstr "Senha"
+
+#: app/forms.py:10
+msgid "Remember me"
+msgstr "Lembrar de mim"
+
+#: app/forms.py:11 app/routes.py:70 app/templates/login.html:5
+msgid "Sign in"
+msgstr "Entrar"
+
+#: app/forms.py:15 app/forms.py:63
+msgid "Email"
+msgstr "Email"
+
+#: app/forms.py:21
+msgid "Repeat password"
+msgstr "Repita a senha"
+
+#: app/forms.py:26 app/routes.py:96 app/templates/register.html:5
+msgid "Register"
+msgstr "Registrar"
+
+#: app/forms.py:31
+msgid "Username already taken."
+msgstr "Nome de usuário já está em uso."
+
+#: app/forms.py:36
+msgid "Email already in use."
+msgstr "Email já está em uso."
+
+#: app/forms.py:39
+msgid "Username:"
+msgstr "Nome de usuário:"
+
+#: app/forms.py:40
+msgid "About me"
+msgstr "Sobre mim"
+
+#: app/forms.py:41 app/forms.py:60
+msgid "Submit"
+msgstr "Confirmar"
+
+#: app/forms.py:51
+msgid "Username is already in use."
+msgstr "Nome de usuário já está em uso."
+
+#: app/forms.py:57
+msgid "Say something"
+msgstr "Diga algo"
+
+#: app/forms.py:66
+msgid "Request password reset"
+msgstr "Redefinir senha"
+
+#: app/forms.py:71
+msgid "Repeat Password"
+msgstr "Repita a senha"
+
+#: app/forms.py:76 app/templates/reset_password.html:5
+msgid "Reset your password"
+msgstr "Redefina sua senha"
+
+#: app/routes.py:23
+msgid "Posted!"
+msgstr "Postado!"
+
+#: app/routes.py:59
+msgid "Invalid username or password"
+msgstr "Nome de usuário ou senha inválida"
+
+#: app/routes.py:80
+msgid "A restricted page"
+msgstr "Uma página restrita"
+
+#: app/routes.py:94
+msgid "Registration confirmed!"
+msgstr "Registro confirmado!"
+
+#: app/routes.py:140
+msgid "Changes saved."
+msgstr "Mudanças salvas."
+
+#: app/routes.py:146 app/templates/edit_profile.html:5
+#: app/templates/user.html:20
+msgid "Edit profile"
+msgstr "Editar perfil"
+
+#: app/routes.py:155 app/routes.py:175
+#, python-format
+msgid "User %(username)s not found."
+msgstr "Usuário %(username)s não encontrado."
+
+#: app/routes.py:158
+msgid "You can't follow yourself."
+msgstr "Você não pode fazer isso."
+
+#: app/routes.py:163
+#, python-format
+msgid "Followed %(username)s"
+msgstr "Seguindo %(username)s"
+
+#: app/routes.py:178
+msgid "You can't unfollow youself."
+msgstr "Você não pode fazer isso."
+
+#: app/routes.py:183
+#, python-format
+msgid "Unfollowed %(username)s."
+msgstr "Não está mais seguindo %(username)s."
+
+#: app/routes.py:206 app/templates/base.html:32
+msgid "Explore"
+msgstr "Explorar"
+
+#: app/routes.py:224
+msgid "Check your email."
+msgstr "Verifique seu email."
+
+#: app/routes.py:227 app/templates/reset_password_request.html:5
+msgid "Reset password"
+msgstr "Redefinir senha"
+
+#: app/routes.py:243
+msgid "Password successfully reset."
+msgstr "Senha redefinida com sucesso"
+
+#: app/templates/404.html:4
+msgid "Page not found"
+msgstr "Página não encontrada"
+
+#: app/templates/500.html:4
+msgid "Unexpected error"
+msgstr "Erro inesperado"
+
+#: app/templates/500.html:5
+msgid "The administrators have been notified."
+msgstr "Os administradores foram notificados."
+
+#: app/templates/500.html:6
+msgid "Back"
+msgstr "Voltar"
+
+#: app/templates/_post.html:14
+#, python-format
+msgid "%(username)s said %(when)s"
+msgstr "%(username)s disse %(when)s"
+
+#: app/templates/base.html:31
+msgid "Home"
+msgstr "Home"
+
+#: app/templates/index.html:5
+#, python-format
+msgid "Hi, %(username)s!"
+msgstr "Olá, %(username)s!"
+
+#: app/templates/index.html:19 app/templates/user.html:49
+msgid "Recent"
+msgstr "Recentes"
+
+#: app/templates/index.html:24 app/templates/user.html:54
+msgid "Older"
+msgstr "Mais antigos"
+
+#: app/templates/login.html:12
+msgid "New user?"
+msgstr "Novo usuário?"
+
+#: app/templates/login.html:12
+msgid "Register here."
+msgstr "Registre-se aqui."
+
+#: app/templates/login.html:14
+msgid "Forgot your password?"
+msgstr "Esqueceu sua senha?"
+
+#: app/templates/login.html:15
+msgid "Reset it here."
+msgstr "Redefina-a aqui."
+
+#: app/templates/user.html:8
+msgid "User"
+msgstr "Usuário"
+
+#: app/templates/user.html:14
+msgid "Last seen on:"
+msgstr "Visto por último: "
+
+#: app/templates/user.html:17
+msgid "followers,"
+msgstr "seguidores,"
+
+#: app/templates/user.html:17
+msgid "following"
+msgstr "seguindo"
+

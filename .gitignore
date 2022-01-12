@@ -3,3 +3,4 @@ __pycache__/
 venv_flask/
 app.db
 flask_mega_tutorial.zip
+messages.pot

@@ -1,5 +1,6 @@
 import flask
 import flask_login
+from flask_babel import _, get_locale
 from flask_login.utils import login_required
 import app.forms as app_forms
 import app.email as app_email
@@ -19,7 +20,7 @@ def index():
         post = models.Post(body=form.post.data, author=flask_login.current_user)
         db.session.add(post)
         db.session.commit()
-        flask.flash('Posted.')
+        flask.flash(_('Posted!'))
         return flask.redirect(flask.url_for('index'))
 
     page = flask.request.args.get('page', 1, type=int)
@@ -55,7 +56,7 @@ def login():
         user = models.User.query.filter_by(username=form.username.data).first()  # get username from db
 
         if user is None or not user.check_password(form.password.data):  # check password
-            flask.flash('Invalid username or password')
+            flask.flash(_('Invalid username or password'))
             return flask.redirect(flask.url_for('login'))
         
         flask_login.login_user(user, remember=form.remember_me.data)
@@ -66,7 +67,7 @@ def login():
 
         return flask.redirect(next_page)
 
-    return flask.render_template('login.html', title='Sign in', form=form)
+    return flask.render_template('login.html', title=_('Sign in'), form=form)
 
 @app.route('/logout')
 def logout():
@@ -76,7 +77,7 @@ def logout():
 @app.route('/restricted')
 @login_required
 def restricted():
-    return '<b> A restricted page </b>'
+    return '<b>' + _('A restricted page') + '</b>'
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -90,9 +91,9 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        flask.flash('Registration confirmed!')
+        flask.flash(_('Registration confirmed!'))
         return flask.redirect(flask.url_for('login'))
-    return flask.render_template('register.html', title='Register', form=form)
+    return flask.render_template('register.html', title=_('Register'), form=form)
 
 @app.route('/user/<username>')
 @login_required
@@ -122,10 +123,11 @@ def user(username):
     return user_page
 
 @app.before_request
-def update_last_seen():
+def before_request():
     if flask_login.current_user.is_authenticated:
         flask_login.current_user.last_seen = datetime.utcnow()
         db.session.commit()
+    flask.g.locale = str(get_locale())
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -135,13 +137,13 @@ def edit_profile():
         flask_login.current_user.username = form.username.data
         flask_login.current_user.about_me = form.about_me.data
         db.session.commit()
-        flask.flash('Changes saved.')
+        flask.flash(_('Changes saved.'))
         return flask.redirect(flask.url_for('edit_profile'))
     elif flask.request.method == 'GET':
         form.username.data = flask_login.current_user.username
         form.about_me.data = flask_login.current_user.about_me
     
-    return flask.render_template('edit_profile.html', title='Edit profile', form=form)
+    return flask.render_template('edit_profile.html', title=_('Edit profile'), form=form)
 
 @app.route('/follow/<username>', methods=['POST'])
 @login_required
@@ -150,15 +152,15 @@ def follow(username):
     if form.validate_on_submit():
         user = models.User.query.filter_by(username=username).first()
         if user is None:
-            flask.flash(f'User {username} not found.')
+            flask.flash(_('User %(username)s not found.', username=username))
             return flask.redirect(flask.url_for('index'))
         if user == flask_login.current_user:
-            flask.flash('You can\'t follow yourself.')
+            flask.flash(_('You can\'t follow yourself.'))
             return flask.redirect(flask.url_for('user', username=username))
 
         flask_login.current_user.follow(user)
         db.session.commit()
-        flask.flash(f'Followed {username}')
+        flask.flash(_('Followed %(username)s', username=username))
         return flask.redirect(flask.url_for('user', username=username))
     else:
         return flask.redirect(flask.url_for('index'))
@@ -170,15 +172,15 @@ def unfollow(username):
     if form.validate_on_submit():
         user = models.User.query.filter_by(username=username).first()
         if user is None:
-            flask.flash(f'User {username} not found.')
+            flask.flash(_('User %(username)s not found.', username=username))
             return flask.redirect(flask.url_for('index'))
         if user == flask_login.current_user:
-            flask.flask('You can\'t unfollow youself.')
+            flask.flask(_('You can\'t unfollow youself.'))
             return flask.redirect(flask.url_for('user', username=username))
         
         flask_login.current_user.unfollow(user)
         db.session.commit()
-        flask.flash(f'Unfollowed {username}.')
+        flask.flash(_('Unfollowed %(username)s.', username=username))
         return flask.redirect(flask.url_for('user', username=username))
     else:
         return flask.redirect(flask.url_for('index'))
@@ -201,7 +203,7 @@ def explore():
         prev_url = None
 
     explore = flask.render_template(
-        'index.html', title='Explore',
+        'index.html', title=_('Explore'),
         posts=paginated_posts.items,
         next_url=next_url,
         prev_url=prev_url
@@ -219,10 +221,10 @@ def reset_password_request():
         if user:
             app_email.send_password_reset_email(user)
         
-        flask.flash('Check your email.')
+        flask.flash(_('Check your email.'))
         return flask.redirect(flask.url_for('login'))
     
-    page = flask.render_template('reset_password_request.html', title='Reset password', form=form)
+    page = flask.render_template('reset_password_request.html', title=_('Reset password'), form=form)
     return page
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
@@ -238,7 +240,7 @@ def reset_password(token):
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
-        flask.flash('Password successfully reset.')
+        flask.flash(_('Password successfully reset.'))
         return flask.redirect(flask.url_for('login'))
     
     return flask.render_template('reset_password.html', form=form)
