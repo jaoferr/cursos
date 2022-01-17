@@ -1,3 +1,4 @@
+import flask
 from flask_wtf import FlaskForm
 import wtforms
 import wtforms.validators

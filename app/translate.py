@@ -1,18 +1,17 @@
-import json
 import requests
 from flask_babel import _
-from app import app
+from flask import current_app
 
 
 def translate(text, source_language, dest_language):
-    if 'TRANSLATOR_KEY' not in app.config or not app.config['TRANSLATOR_KEY']:
+    if 'TRANSLATOR_KEY' not in current_app.config or not current_app.config['TRANSLATOR_KEY']:
         return _('Translation service is not configured.')
 
     return _('Translation service is not configured.')
 
     # microsft azure service, disabled
     auth = {
-        'Ocp-Apim-Subscription-Key': app.config['TRANSLATOR_KEY'],
+        'Ocp-Apim-Subscription-Key': current_app.config['TRANSLATOR_KEY'],
         'Ocp-Apim-Subscription-Region': ''
     }
     r = requests.post(
