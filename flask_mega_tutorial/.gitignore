@@ -1,0 +1,8 @@
+__pycache__/
+.flaskenv
+venv_flask/
+app.db
+flask_mega_tutorial.zip
+messages.pot
+wsl_venv/
+.env
