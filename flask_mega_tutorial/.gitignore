@@ -1,5 +1,0 @@
-__pycache__/
-.flaskenv
-venv_flask/
-app.db
-logs/
