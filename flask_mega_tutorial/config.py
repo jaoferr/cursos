@@ -26,3 +26,6 @@ class Config(object):
     # language support
     LANGUAGES = ['en', 'pt']
     TRANSLATOR_KEY = os.environ.get('TRANSLATOR_KEY')
+
+    # elastic search
+    ELASTICTSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
