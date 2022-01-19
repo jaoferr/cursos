@@ -29,3 +29,13 @@ class PostForm(FlaskForm):
         wtforms.validators.DataRequired(), wtforms.validators.Length(min=1, max=140)
     ])
     submit = wtforms.SubmitField(_l('Submit'))
+
+class SearchForm(FlaskForm):
+    q = wtforms.StringField(_l('Search'), validators=[wtforms.validators.DataRequired()])
+
+    def __init__(self, *args, **kwargs):
+        if 'formdata' not in kwargs:
+            kwargs['formdata'] = flask.request.args
+        if 'csrf_enabled' not in kwargs:
+            kwargs['csrf_enabled'] = False
+        super(SearchForm, self).__init__(*args, **kwargs)

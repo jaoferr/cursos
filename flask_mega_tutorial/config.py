@@ -28,4 +28,4 @@ class Config(object):
     TRANSLATOR_KEY = os.environ.get('TRANSLATOR_KEY')
 
     # elastic search
-    ELASTICTSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
