@@ -19,6 +19,7 @@ def before_request():
     if flask_login.current_user.is_authenticated:
         flask_login.current_user.last_seen = datetime.utcnow()
         db.session.commit()
+        flask.g.search_form = main_forms.SearchForm()
     flask.g.locale = str(get_locale())
 
 @blueprint.route('/', methods=['GET', 'POST'])
@@ -189,3 +190,27 @@ def translate_text():
         )}
     )
     return j
+
+@blueprint.route('/search')
+@login_required
+def search():
+    if not flask.g.search_form.validate():
+        return flask.redirect(flask.url_for('main.explore'))
+    page = flask.request.args.get('page', 1, type=int)
+    posts, total = models.Post.search(flask.g.search_form.q.data, page, current_app.config['POSTS_PER_PAGE'])
+
+    if total > page * current_app.config['POSTS_PER_PAGE']:
+        next_url = flask.url_for('main.search', q=flask.g.search_form.q.data, page=page + 1)
+    else:
+        next_url = None
+        
+    if page > 1:
+        prev_url = flask.url_for('user', username=flask.g.search_form.q.data, page=page - 1)
+    else:
+        prev_url = None
+    
+    template = flask.render_template(
+        'search.html', title=_('Search'), 
+        posts=posts, next_url=next_url, prev_url=prev_url
+    )
+    return template
