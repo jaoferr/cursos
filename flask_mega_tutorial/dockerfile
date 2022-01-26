@@ -1,0 +1,23 @@
+FROM python:slim
+
+RUN useradd flask_mega_tutorial
+
+WORKDIR /home/flask_mega_tutorial
+
+COPY requirements.txt requirements.txt
+RUN python -m venv venv_flask
+RUN venv_flask/bin/pip install -r requirements.txt
+RUN venv_flask/bin/pip install gunicorn
+
+COPY app app
+COPY migrations migrations
+COPY flask_mega_tutorial.py config.py boot.sh ./
+RUN chmod +x boot.sh
+
+ENV FLASK_APP=flask_mega_tutorial.py
+
+RUN chown -R flask_mega_tutorial:flask_mega_tutorial ./
+USER flask_mega_tutorial
+
+EXPOSE 5000
+ENTRYPOINT [ "./boot.sh" ]
