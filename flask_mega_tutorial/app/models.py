@@ -10,11 +10,6 @@ import app.search as app_search
 
 from flask import current_app
 
-followers = db.Table(
-    'followers',
-    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('followed_id', db.Integer, db.ForeignKey('user.id')),
-)
 
 class SearchableMixin(object):
 
@@ -53,6 +48,15 @@ class SearchableMixin(object):
     def reindex(cls):
         for obj in cls.query:
             app_search.add_to_index(cls.__tablename__, obj)
+
+db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
+db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
+
+followers = db.Table(
+    'followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('followed_id', db.Integer, db.ForeignKey('user.id')),
+)
 
 class User(flask_login.UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -127,6 +131,10 @@ class User(flask_login.UserMixin, db.Model):
             return
         return User.query.get(id)
 
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
 class Post(SearchableMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
@@ -137,11 +145,3 @@ class Post(SearchableMixin, db.Model):
     __searchable__ = ['body']
     def __repr__(self):
         return f'<Post {self.body}>'
-
-
-@login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
-
-db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
-db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)

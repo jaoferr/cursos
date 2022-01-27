@@ -1,4 +1,4 @@
-FROM python:slim
+FROM python:3.9.10-slim
 
 RUN useradd flask_mega_tutorial
 
@@ -7,14 +7,14 @@ WORKDIR /home/flask_mega_tutorial
 COPY requirements.txt requirements.txt
 RUN python -m venv venv_flask
 RUN venv_flask/bin/pip install -r requirements.txt
-RUN venv_flask/bin/pip install gunicorn
+RUN venv_flask/bin/pip install gunicorn pymysql cryptography
 
 COPY app app
 COPY migrations migrations
 COPY flask_mega_tutorial.py config.py boot.sh ./
-RUN chmod +x boot.sh
+RUN chmod a+x boot.sh
 
-ENV FLASK_APP=flask_mega_tutorial.py
+ENV FLASK_APP flask_mega_tutorial.py
 
 RUN chown -R flask_mega_tutorial:flask_mega_tutorial ./
 USER flask_mega_tutorial
