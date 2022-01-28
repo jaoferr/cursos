@@ -21,7 +21,7 @@ class Config(object):
     ADMINS = ['ADMIN@e.com']
 
     # pagination
-    POSTS_PER_PAGE = 3
+    POSTS_PER_PAGE = 10
 
     # language support
     LANGUAGES = ['en', 'pt']

@@ -213,7 +213,7 @@ def search():
         prev_url = None
     
     template = flask.render_template(
-        'search.html', title=_('Search'), 
+        'search.html', title=_('Results'), 
         posts=posts, next_url=next_url, prev_url=prev_url
     )
     return template

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-01-28 11:11-0300\n"
+"POT-Creation-Date: 2022-01-28 13:57-0300\n"
 "PO-Revision-Date: 2022-01-12 08:07-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -119,8 +119,7 @@ msgstr "Redefinir senha"
 msgid "Password successfully reset."
 msgstr "Senha redefinida com sucesso"
 
-#: app/main/forms.py:34 app/main/routes.py:216
-#, fuzzy
+#: app/main/forms.py:34
 msgid "Search"
 msgstr "Pesquisar"
 
@@ -167,6 +166,10 @@ msgstr "Você não pode fazer isso."
 #, python-format
 msgid "Unfollowed %(username)s."
 msgstr "Não está mais seguindo %(username)s."
+
+#: app/main/routes.py:216
+msgid "Results"
+msgstr "Resultados"
 
 #: app/templates/_post.html:14
 #, python-format
