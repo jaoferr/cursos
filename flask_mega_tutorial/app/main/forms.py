@@ -36,6 +36,6 @@ class SearchForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         if 'formdata' not in kwargs:
             kwargs['formdata'] = flask.request.args
-        if 'csrf_enabled' not in kwargs:
-            kwargs['csrf_enabled'] = False
+        # if 'csrf_enabled' not in kwargs:
+        kwargs['meta'] = {'csrf': False}
         super(SearchForm, self).__init__(*args, **kwargs)

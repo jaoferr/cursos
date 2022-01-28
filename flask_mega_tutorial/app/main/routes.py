@@ -40,7 +40,7 @@ def index():
         db.session.add(post)
         db.session.commit()
         flask.flash(_('Posted!'))
-        return flask.redirect(flask.url_for('index'))
+        return flask.redirect(flask.url_for('main.index'))
 
     page = flask.request.args.get('page', 1, type=int)
     posts = flask_login.current_user.followed_posts()
@@ -104,12 +104,12 @@ def user(username):
     paginated_posts = posts.paginate(page, current_app.config['POSTS_PER_PAGE'], False)
 
     if paginated_posts.has_next:
-        next_url = flask.url_for('user', username=user.username,page=paginated_posts.next_num)
+        next_url = flask.url_for('main.user', username=user.username,page=paginated_posts.next_num)
     else:
         next_url = None
         
     if paginated_posts.has_prev:
-        prev_url = flask.url_for('user', username=user.username, page=paginated_posts.prev_num)
+        prev_url = flask.url_for('main.user', username=user.username, page=paginated_posts.prev_num)
     else:
         prev_url = None
 
@@ -131,7 +131,7 @@ def edit_profile():
         flask_login.current_user.about_me = form.about_me.data
         db.session.commit()
         flask.flash(_('Changes saved.'))
-        return flask.redirect(flask.url_for('edit_profile'))
+        return flask.redirect(flask.url_for('main.edit_profile'))
     elif flask.request.method == 'GET':
         form.username.data = flask_login.current_user.username
         form.about_me.data = flask_login.current_user.about_me
@@ -146,17 +146,17 @@ def follow(username):
         user = models.User.query.filter_by(username=username).first()
         if user is None:
             flask.flash(_('User %(username)s not found.', username=username))
-            return flask.redirect(flask.url_for('index'))
+            return flask.redirect(flask.url_for('main.index'))
         if user == flask_login.current_user:
             flask.flash(_('You can\'t follow yourself.'))
-            return flask.redirect(flask.url_for('user', username=username))
+            return flask.redirect(flask.url_for('main.user', username=username))
 
         flask_login.current_user.follow(user)
         db.session.commit()
         flask.flash(_('Followed %(username)s', username=username))
-        return flask.redirect(flask.url_for('user', username=username))
+        return flask.redirect(flask.url_for('main.user', username=username))
     else:
-        return flask.redirect(flask.url_for('index'))
+        return flask.redirect(flask.url_for('main.index'))
 
 @blueprint.route('/unfollow/<username>', methods=['POST'])
 @login_required
@@ -166,25 +166,24 @@ def unfollow(username):
         user = models.User.query.filter_by(username=username).first()
         if user is None:
             flask.flash(_('User %(username)s not found.', username=username))
-            return flask.redirect(flask.url_for('index'))
+            return flask.redirect(flask.url_for('main.index'))
         if user == flask_login.current_user:
             flask.flask(_('You can\'t unfollow youself.'))
-            return flask.redirect(flask.url_for('user', username=username))
+            return flask.redirect(flask.url_for('main.user', username=username))
         
         flask_login.current_user.unfollow(user)
         db.session.commit()
         flask.flash(_('Unfollowed %(username)s.', username=username))
-        return flask.redirect(flask.url_for('user', username=username))
+        return flask.redirect(flask.url_for('main.user', username=username))
     else:
-        return flask.redirect(flask.url_for('index'))
+        return flask.redirect(flask.url_for('main.index'))
 
 @blueprint.route('/translate', methods=['POST'])
 @login_required
 def translate_text():
     j = flask.jsonify(
-        {'text': translate.translate(
-            # flask.request.form['text'],
-            'test?',
+        {'text': translate(
+            flask.request.form['text'],
             flask.request.form['source_language'],
             flask.request.form['dest_language']
         )}
@@ -195,6 +194,10 @@ def translate_text():
 @login_required
 def search():
     if not flask.g.search_form.validate():
+        print('\n')
+        print(flask.g.search_form.validate())
+        print(flask.g.search_form.data)
+        print('\n')
         return flask.redirect(flask.url_for('main.explore'))
     page = flask.request.args.get('page', 1, type=int)
     posts, total = models.Post.search(flask.g.search_form.q.data, page, current_app.config['POSTS_PER_PAGE'])
@@ -205,7 +208,7 @@ def search():
         next_url = None
         
     if page > 1:
-        prev_url = flask.url_for('user', username=flask.g.search_form.q.data, page=page - 1)
+        prev_url = flask.url_for('main.user', username=flask.g.search_form.q.data, page=page - 1)
     else:
         prev_url = None
     
