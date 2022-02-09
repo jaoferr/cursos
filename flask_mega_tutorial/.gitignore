@@ -6,3 +6,4 @@ flask_mega_tutorial.zip
 messages.pot
 wsl_venv/
 .env
+app/translations/pt/LC_MESSAGES/messages.mo

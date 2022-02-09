@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-01-12 14:36-0300\n"
+"POT-Creation-Date: 2022-01-28 13:57-0300\n"
 "PO-Revision-Date: 2022-01-12 08:07-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -18,165 +18,158 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: app/email.py:26
-msgid "Password reset"
-msgstr "Senha redefinida"
-
-#: app/forms.py:8 app/forms.py:14
-msgid "Username"
-msgstr "Nome de usuário"
-
-#: app/forms.py:9 app/forms.py:19 app/forms.py:69
-msgid "Password"
-msgstr "Senha"
-
-#: app/forms.py:10
-msgid "Remember me"
-msgstr "Lembrar de mim"
-
-#: app/forms.py:11 app/routes.py:78 app/templates/login.html:5
-msgid "Sign in"
-msgstr "Entrar"
-
-#: app/forms.py:15 app/forms.py:63
-msgid "Email"
-msgstr "Email"
-
-#: app/forms.py:21
-msgid "Repeat password"
-msgstr "Repita a senha"
-
-#: app/forms.py:26 app/routes.py:104 app/templates/register.html:5
-msgid "Register"
-msgstr "Registrar"
-
-#: app/forms.py:31
-msgid "Username already taken."
-msgstr "Nome de usuário já está em uso."
-
-#: app/forms.py:36
-msgid "Email already in use."
-msgstr "Email já está em uso."
-
-#: app/forms.py:39
+#: app/forms.py:9 app/main/forms.py:10
 msgid "Username:"
 msgstr "Nome de usuário:"
 
-#: app/forms.py:40
+#: app/forms.py:10 app/main/forms.py:11
 msgid "About me"
 msgstr "Sobre mim"
 
-#: app/forms.py:41 app/forms.py:60
+#: app/forms.py:11 app/forms.py:30 app/main/forms.py:12 app/main/forms.py:31
 msgid "Submit"
 msgstr "Confirmar"
 
-#: app/forms.py:51
+#: app/forms.py:21 app/main/forms.py:22
 msgid "Username is already in use."
 msgstr "Nome de usuário já está em uso."
 
-#: app/forms.py:57
+#: app/forms.py:27 app/main/forms.py:28
 msgid "Say something"
 msgstr "Diga algo"
 
-#: app/forms.py:66
+#: app/translate.py:8 app/translate.py:10
+msgid "Translation service is not configured."
+msgstr "O serviço de tradução não está configurado."
+
+#: app/translate.py:23
+msgid "Translation service failed."
+msgstr "O serviço de tradução falhou."
+
+#: app/auth/email.py:13
+msgid "Password reset"
+msgstr "Senha redefinida"
+
+#: app/auth/forms.py:8 app/auth/forms.py:14
+msgid "Username"
+msgstr "Nome de usuário"
+
+#: app/auth/forms.py:9 app/auth/forms.py:19 app/auth/forms.py:45
+msgid "Password"
+msgstr "Senha"
+
+#: app/auth/forms.py:10
+msgid "Remember me"
+msgstr "Lembrar de mim"
+
+#: app/auth/forms.py:11 app/auth/routes.py:33 app/templates/auth/login.html:5
+msgid "Sign in"
+msgstr "Entrar"
+
+#: app/auth/forms.py:15 app/auth/forms.py:39
+msgid "Email"
+msgstr "Email"
+
+#: app/auth/forms.py:21
+msgid "Repeat password"
+msgstr "Repita a senha"
+
+#: app/auth/forms.py:26 app/auth/routes.py:54
+#: app/templates/auth/register.html:5
+msgid "Register"
+msgstr "Registrar"
+
+#: app/auth/forms.py:31
+msgid "Username already taken."
+msgstr "Nome de usuário já está em uso."
+
+#: app/auth/forms.py:36
+msgid "Email already in use."
+msgstr "Email já está em uso."
+
+#: app/auth/forms.py:42
 msgid "Request password reset"
 msgstr "Redefinir senha"
 
-#: app/forms.py:71
+#: app/auth/forms.py:47
 msgid "Repeat Password"
 msgstr "Repita a senha"
 
-#: app/forms.py:76 app/templates/reset_password.html:5
+#: app/auth/forms.py:52 app/templates/auth/reset_password.html:5
 msgid "Reset your password"
 msgstr "Redefina sua senha"
 
-#: app/routes.py:31
-msgid "Posted!"
-msgstr "Postado!"
-
-#: app/routes.py:67
+#: app/auth/routes.py:22
 msgid "Invalid username or password"
 msgstr "Nome de usuário ou senha inválida"
 
-#: app/routes.py:88
-msgid "A restricted page"
-msgstr "Uma página restrita"
-
-#: app/routes.py:102
+#: app/auth/routes.py:52
 msgid "Registration confirmed!"
 msgstr "Registro confirmado!"
 
-#: app/routes.py:148
+#: app/auth/routes.py:67
+msgid "Check your email."
+msgstr "Verifique seu email."
+
+#: app/auth/routes.py:70 app/templates/auth/reset_password_request.html:5
+msgid "Reset password"
+msgstr "Redefinir senha"
+
+#: app/auth/routes.py:86
+msgid "Password successfully reset."
+msgstr "Senha redefinida com sucesso"
+
+#: app/main/forms.py:34
+msgid "Search"
+msgstr "Pesquisar"
+
+#: app/main/routes.py:42
+msgid "Posted!"
+msgstr "Postado!"
+
+#: app/main/routes.py:86 app/templates/base.html:48
+msgid "Explore"
+msgstr "Explorar"
+
+#: app/main/routes.py:96
+msgid "A restricted page"
+msgstr "Uma página restrita"
+
+#: app/main/routes.py:133
 msgid "Changes saved."
 msgstr "Mudanças salvas."
 
-#: app/routes.py:154 app/templates/edit_profile.html:5
+#: app/main/routes.py:139 app/templates/edit_profile.html:5
 #: app/templates/user.html:20
 msgid "Edit profile"
 msgstr "Editar perfil"
 
-#: app/routes.py:163 app/routes.py:183
+#: app/main/routes.py:148 app/main/routes.py:168
 #, python-format
 msgid "User %(username)s not found."
 msgstr "Usuário %(username)s não encontrado."
 
-#: app/routes.py:166
+#: app/main/routes.py:151
 msgid "You can't follow yourself."
 msgstr "Você não pode fazer isso."
 
-#: app/routes.py:171
+#: app/main/routes.py:156
 #, python-format
 msgid "Followed %(username)s"
 msgstr "Seguindo %(username)s"
 
-#: app/routes.py:186
+#: app/main/routes.py:171
 msgid "You can't unfollow youself."
 msgstr "Você não pode fazer isso."
 
-#: app/routes.py:191
+#: app/main/routes.py:176
 #, python-format
 msgid "Unfollowed %(username)s."
 msgstr "Não está mais seguindo %(username)s."
 
-#: app/routes.py:214 app/templates/base.html:48
-msgid "Explore"
-msgstr "Explorar"
-
-#: app/routes.py:232
-msgid "Check your email."
-msgstr "Verifique seu email."
-
-#: app/routes.py:235 app/templates/reset_password_request.html:5
-msgid "Reset password"
-msgstr "Redefinir senha"
-
-#: app/routes.py:251
-msgid "Password successfully reset."
-msgstr "Senha redefinida com sucesso"
-
-#: app/translate.py:9 app/translate.py:11
-msgid "Translation service is not configured."
-msgstr "O serviço de tradução não está configurado."
-
-#: app/translate.py:24
-msgid "Translation service failed."
-msgstr "O serviço de tradução falhou."
-
-#: app/templates/404.html:4
-msgid "Page not found"
-msgstr "Página não encontrada"
-
-#: app/templates/500.html:4
-msgid "Unexpected error"
-msgstr "Erro inesperado"
-
-#: app/templates/500.html:5
-msgid "The administrators have been notified."
-msgstr "Os administradores foram notificados."
-
-#: app/templates/500.html:6
-msgid "Back"
-msgstr "Voltar"
+#: app/main/routes.py:216
+msgid "Results"
+msgstr "Resultados"
 
 #: app/templates/_post.html:14
 #, python-format
@@ -188,12 +181,16 @@ msgid "Translate"
 msgstr "Traduzir"
 
 #: app/templates/base.html:19
-msgid "Could not contact server."
+msgid "Error: Could not contact server."
 msgstr "Não possível conectar ao servidor."
 
 #: app/templates/base.html:47
 msgid "Home"
 msgstr "Home"
+
+#: app/templates/base.html:61
+msgid "Profile"
+msgstr "Perfil"
 
 #: app/templates/index.html:5
 #, python-format
@@ -208,21 +205,17 @@ msgstr "Recentes"
 msgid "Older"
 msgstr "Mais antigos"
 
-#: app/templates/login.html:12
-msgid "New user?"
-msgstr "Novo usuário?"
+#: app/templates/search.html:4
+msgid "Search results"
+msgstr "Resultados"
 
-#: app/templates/login.html:12
-msgid "Register here."
-msgstr "Registre-se aqui."
+#: app/templates/search.html:14
+msgid "Previous results"
+msgstr "Anteriores"
 
-#: app/templates/login.html:14
-msgid "Forgot your password?"
-msgstr "Esqueceu sua senha?"
-
-#: app/templates/login.html:15
-msgid "Reset it here."
-msgstr "Redefina-a aqui."
+#: app/templates/search.html:19
+msgid "Next results"
+msgstr "Próximos"
 
 #: app/templates/user.html:8
 msgid "User"
@@ -239,4 +232,36 @@ msgstr "seguidores,"
 #: app/templates/user.html:17
 msgid "following"
 msgstr "seguindo"
+
+#: app/templates/auth/login.html:12
+msgid "New user?"
+msgstr "Novo usuário?"
+
+#: app/templates/auth/login.html:12
+msgid "Register here."
+msgstr "Registre-se aqui."
+
+#: app/templates/auth/login.html:14
+msgid "Forgot your password?"
+msgstr "Esqueceu sua senha?"
+
+#: app/templates/auth/login.html:15
+msgid "Reset it here."
+msgstr "Redefina-a aqui."
+
+#: app/templates/errors/404.html:4
+msgid "Page not found"
+msgstr "Página não encontrada"
+
+#: app/templates/errors/500.html:4
+msgid "Unexpected error"
+msgstr "Erro inesperado"
+
+#: app/templates/errors/500.html:5
+msgid "The administrators have been notified."
+msgstr "Os administradores foram notificados."
+
+#: app/templates/errors/500.html:6
+msgid "Back"
+msgstr "Voltar"
 

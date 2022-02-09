@@ -8,7 +8,7 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'default-key'
 
     # sql alchemy
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', '') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -21,7 +21,7 @@ class Config(object):
     ADMINS = ['ADMIN@e.com']
 
     # pagination
-    POSTS_PER_PAGE = 3
+    POSTS_PER_PAGE = 10
 
     # language support
     LANGUAGES = ['en', 'pt']
