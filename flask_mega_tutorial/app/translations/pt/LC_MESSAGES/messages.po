@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-01-28 13:57-0300\n"
+"POT-Creation-Date: 2022-02-12 09:59-0300\n"
 "PO-Revision-Date: 2022-01-12 08:07-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -27,6 +27,7 @@ msgid "About me"
 msgstr "Sobre mim"
 
 #: app/forms.py:11 app/forms.py:30 app/main/forms.py:12 app/main/forms.py:31
+#: app/main/forms.py:48
 msgid "Submit"
 msgstr "Confirmar"
 
@@ -123,11 +124,15 @@ msgstr "Senha redefinida com sucesso"
 msgid "Search"
 msgstr "Pesquisar"
 
+#: app/main/forms.py:44
+msgid "Message"
+msgstr "Mensagem"
+
 #: app/main/routes.py:42
 msgid "Posted!"
 msgstr "Postado!"
 
-#: app/main/routes.py:86 app/templates/base.html:48
+#: app/main/routes.py:86 app/templates/base.html:90
 msgid "Explore"
 msgstr "Explorar"
 
@@ -171,12 +176,20 @@ msgstr "Não está mais seguindo %(username)s."
 msgid "Results"
 msgstr "Resultados"
 
-#: app/templates/_post.html:14
+#: app/main/routes.py:243
+msgid "Your message has been sent."
+msgstr "Mensagem enviada."
+
+#: app/main/routes.py:247
+msgid "Send a message"
+msgstr "Envie uma mensagem"
+
+#: app/templates/_post.html:16
 #, python-format
 msgid "%(username)s said %(when)s"
 msgstr "%(username)s disse %(when)s"
 
-#: app/templates/_post.html:28
+#: app/templates/_post.html:30
 msgid "Translate"
 msgstr "Traduzir"
 
@@ -184,11 +197,15 @@ msgstr "Traduzir"
 msgid "Error: Could not contact server."
 msgstr "Não possível conectar ao servidor."
 
-#: app/templates/base.html:47
+#: app/templates/base.html:89
 msgid "Home"
 msgstr "Home"
 
-#: app/templates/base.html:61
+#: app/templates/base.html:103 app/templates/messages.html:4
+msgid "Messages"
+msgstr "Mensagens"
+
+#: app/templates/base.html:104
 msgid "Profile"
 msgstr "Perfil"
 
@@ -197,13 +214,21 @@ msgstr "Perfil"
 msgid "Hi, %(username)s!"
 msgstr "Olá, %(username)s!"
 
-#: app/templates/index.html:19 app/templates/user.html:49
+#: app/templates/index.html:19 app/templates/user.html:56
 msgid "Recent"
 msgstr "Recentes"
 
-#: app/templates/index.html:24 app/templates/user.html:54
+#: app/templates/index.html:24 app/templates/user.html:61
 msgid "Older"
 msgstr "Mais antigos"
+
+#: app/templates/messages.html:12
+msgid "Newer messages"
+msgstr "Mais recentes"
+
+#: app/templates/messages.html:17
+msgid "Older messages"
+msgstr "Mais antigas"
 
 #: app/templates/search.html:4
 msgid "Search results"
@@ -216,6 +241,11 @@ msgstr "Anteriores"
 #: app/templates/search.html:19
 msgid "Next results"
 msgstr "Próximos"
+
+#: app/templates/send_message.html:5
+#, python-format
+msgid "Send a message to %(recipient)s"
+msgstr "Envie uma mensagem para %(recipient)s"
 
 #: app/templates/user.html:8
 msgid "User"
@@ -231,6 +261,35 @@ msgstr "seguidores,"
 
 #: app/templates/user.html:17
 msgid "following"
+msgstr "seguindo"
+
+#: app/templates/user.html:40
+msgid "Send a private message"
+msgstr "Envia uma mensagem privada"
+
+#: app/templates/user_popup.html:14
+#, fuzzy
+msgid "Last seen on"
+msgstr "Visto por último: "
+
+#: app/templates/user_popup.html:18
+#, fuzzy, python-format
+msgid "%(count)d followers"
+msgstr "seguidores,"
+
+#: app/templates/user_popup.html:19
+#, fuzzy, python-format
+msgid "%(count)d following"
+msgstr "seguindo"
+
+#: app/templates/user_popup.html:26
+#, fuzzy
+msgid "Follow"
+msgstr "seguindo"
+
+#: app/templates/user_popup.html:34
+#, fuzzy
+msgid "Unfollow"
 msgstr "seguindo"
 
 #: app/templates/auth/login.html:12
