@@ -239,6 +239,7 @@ def send_message(recipient):
             body=form.message.data
         )
         db.session.add(msg)
+        user.add_notification('unread_message_count', user.new_messages())
         db.session.commit()
         flask.flash(_('Your message has been sent.'))
         return flask.redirect(flask.url_for('main.user', username=recipient))
@@ -253,6 +254,7 @@ def send_message(recipient):
 @login_required
 def messages():
     flask_login.current_user.last_message_read_time = datetime.utcnow()
+    flask_login.current_user.add_notification('unread_message_count', 0)
     db.session.commit()
     page = flask.request.args.get('page', 1, type=int)
     messages = flask_login.current_user.messages_received.order_by(models.Message.timestamp.desc())
@@ -277,3 +279,20 @@ def messages():
         next_url=next_url, prev_url=prev_url
     )
     return template
+
+@blueprint.route('/notifications')
+@login_required
+def notifications():
+    since = flask.request.args.get('since', 0.0, type=float)
+    notifications = flask_login.current_user.notifications.filter(
+        models.Notification.timestamp > since)
+    notifications = notifications.order_by(models.Notification.timestamp.asc())
+
+    j = [{
+        'name': n.name,
+        'data': n.get_data(),
+        'timestamp': n.timestamp
+    } for n in notifications]
+    json_notifications = flask.jsonify(j)
+
+    return json_notifications    

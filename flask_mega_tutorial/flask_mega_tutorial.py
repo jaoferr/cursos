@@ -3,7 +3,7 @@ From:
     https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
 '''
 from app import create_app, db, cli
-from app.models import User, Post, Message
+from app.models import User, Post, Message, Notification
 
 app = create_app()
 cli.register(app)
@@ -14,6 +14,7 @@ def make_shell_context():
         'db': db,
         'user': User,
         'post': Post,
-        'message': Message
+        'message': Message,
+        'notification': Notification
     }
     return context

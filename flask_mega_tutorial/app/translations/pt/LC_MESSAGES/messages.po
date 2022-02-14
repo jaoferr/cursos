@@ -265,7 +265,7 @@ msgstr "seguindo"
 
 #: app/templates/user.html:40
 msgid "Send a private message"
-msgstr "Envia uma mensagem privada"
+msgstr "Envie uma mensagem privada"
 
 #: app/templates/user_popup.html:14
 #, fuzzy
