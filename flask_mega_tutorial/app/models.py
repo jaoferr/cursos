@@ -1,12 +1,13 @@
-from datetime import datetime
 from app import db
 from app import login
-import werkzeug.security as security
-import flask_login
+from datetime import datetime
 from hashlib import md5
 from time import time
+import flask_login
 import jwt
+import json
 import app.search as app_search
+import werkzeug.security as security
 
 from flask import current_app
 
@@ -68,6 +69,8 @@ class User(flask_login.UserMixin, db.Model):
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 
+    last_message_read_time = db.Column(db.DateTime)
+
     followed = db.relationship(
         'User',
         secondary=followers,
@@ -76,6 +79,18 @@ class User(flask_login.UserMixin, db.Model):
         backref=db.backref('followers', lazy='dynamic'),
         lazy='dynamic'
     )
+
+    messages_sent = db.relationship(
+        'Message',
+        foreign_keys='Message.sender_id',
+        backref='author', lazy='dynamic'
+    )
+    messages_received = db.relationship(
+        'Message',
+        foreign_keys='Message.recipient_id',
+        backref='recipient', lazy='dynamic'
+    )
+    notifications = db.relationship('Notification', backref='user', lazy='dynamic')
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -130,6 +145,18 @@ class User(flask_login.UserMixin, db.Model):
         except:
             return
         return User.query.get(id)
+    
+    def new_messages(self):
+        last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
+        msg = Message.query.filter_by(recipient=self).filter(Message.timestamp > last_read_time).count()
+        return msg
+
+    def add_notification(self, name, data):
+        self.notifications.filter_by(name=name).delete()
+        n = Notification(name=name, payload_json=json.dumps(data), user=self)
+        db.session.add(n)
+        print(datetime.now().timestamp())
+        return n
 
 @login.user_loader
 def load_user(id):
@@ -145,3 +172,24 @@ class Post(SearchableMixin, db.Model):
     __searchable__ = ['body']
     def __repr__(self):
         return f'<Post {self.body}>'
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    body = db.Column(db.String(140))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Message {self.body}>'
+
+class Notification(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    # timestamp = db.Column(db.Float, index=True, default=time)
+    timestamp = db.Column(db.Float(precision=6), index=True, default=datetime.now().timestamp)
+    payload_json = db.Column(db.Text)
+
+    def get_data(self):
+        return json.loads(str(self.payload_json))

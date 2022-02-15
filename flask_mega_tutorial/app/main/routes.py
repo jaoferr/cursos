@@ -217,3 +217,82 @@ def search():
         posts=posts, next_url=next_url, prev_url=prev_url
     )
     return template
+
+@blueprint.route('/user/<username>/popup')
+@login_required
+def user_popup(username):
+    user = models.User.query.filter_by(username=username).first_or_404()
+    form = main_forms.EmptyForm()
+
+    template = flask.render_template('user_popup.html', user=user, form=form)
+    return template
+
+@blueprint.route('/send_message/<recipient>', methods=['GET', 'POST'])
+@login_required
+def send_message(recipient):
+    user = models.User.query.filter_by(username=recipient).first_or_404()
+    form = main_forms.MessageForm()
+    if form.validate_on_submit():
+        msg = models.Message(
+            author=flask_login.current_user, 
+            recipient=user,
+            body=form.message.data
+        )
+        db.session.add(msg)
+        user.add_notification('unread_message_count', user.new_messages())
+        db.session.commit()
+        flask.flash(_('Your message has been sent.'))
+        return flask.redirect(flask.url_for('main.user', username=recipient))
+    
+    template = flask.render_template(
+        'send_message.html', title=_('Send a message'),
+        form=form, recipient=recipient 
+    )
+    return template
+
+@blueprint.route('/messages')
+@login_required
+def messages():
+    flask_login.current_user.last_message_read_time = datetime.utcnow()
+    flask_login.current_user.add_notification('unread_message_count', 0)
+    db.session.commit()
+    page = flask.request.args.get('page', 1, type=int)
+    messages = flask_login.current_user.messages_received.order_by(models.Message.timestamp.desc())
+    paginated_messages = messages.paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+
+    if paginated_messages.has_next:
+        next_url = flask.url_for(
+            'main.messages', page=paginated_messages.next_num
+        )
+    else:
+        next_url = None
+        
+    if paginated_messages.has_prev:
+        prev_url = flask.url_for(
+            'main.messages', page=paginated_messages.prev_num
+        )
+    else:
+        prev_url = None
+    
+    template = flask.render_template(
+        'messages.html', messages=paginated_messages.items,
+        next_url=next_url, prev_url=prev_url
+    )
+    return template
+
+@blueprint.route('/notifications')
+@login_required
+def notifications():
+    since = flask.request.args.get('since', 0.0, type=float)
+    notifications = flask_login.current_user.notifications.filter(
+        models.Notification.timestamp > since)
+    notifications = notifications.order_by(models.Notification.timestamp.asc())
+
+    j = [{
+        'name': n.name,
+        'data': n.get_data(),
+        'timestamp': n.timestamp
+    } for n in notifications]
+    json_notifications = flask.jsonify(j)
+
+    return json_notifications    
