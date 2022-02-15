@@ -1,4 +1,6 @@
 import os
+import logging
+import rq
 from flask import Flask
 from flask import current_app
 from config import Config
@@ -10,11 +12,11 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 from flask import request
-import logging
 from logging.handlers import SMTPHandler
 from logging.handlers import RotatingFileHandler
 from datetime import datetime
 from elasticsearch import Elasticsearch
+from redis import Redis
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -47,6 +49,10 @@ def create_app(config_class=Config):
     bootstrap.init_app(app)
     moment.init_app(app)
     babel.init_app(app)
+
+    # redis
+    app.redis = Redis.from_url(app.config['REDIS_URL'])
+    app.task_queue = rq.Queue('flask_mega_tutorial-tasks', connection=app.redis)
 
     # blueprints
     from app.errors import blueprint as errors_blueprint

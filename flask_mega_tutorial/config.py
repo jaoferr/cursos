@@ -29,3 +29,6 @@ class Config(object):
 
     # elastic search
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+
+    # redis
+    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
