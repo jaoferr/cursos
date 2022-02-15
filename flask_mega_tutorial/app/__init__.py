@@ -1,6 +1,7 @@
 import os
 import logging
 import rq
+import elasticsearch
 from flask import Flask
 from flask import current_app
 from config import Config
@@ -15,7 +16,6 @@ from flask import request
 from logging.handlers import SMTPHandler
 from logging.handlers import RotatingFileHandler
 from datetime import datetime
-from elasticsearch import Elasticsearch
 from redis import Redis
 
 app = Flask(__name__)
@@ -38,9 +38,15 @@ def create_app(config_class=Config):
 
     # elasticsearch
     if app.config['ELASTICSEARCH_URL']:
-        app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']])
+        app.elasticsearch = elasticsearch.Elasticsearch([app.config['ELASTICSEARCH_URL']])
+        if app.elasticsearch.ping():
+            pass
+        else:
+            app.logger.info('Elasticsearch server not running. Search functionality is not available.')
+            app.elasticsearch = None
     else:
         app.elasticsearch = None
+        app.logger.info('Elasticsearch not configured. Search functionality is not available.')
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -52,7 +58,7 @@ def create_app(config_class=Config):
 
     # redis
     app.redis = Redis.from_url(app.config['REDIS_URL'])
-    app.task_queue = rq.Queue('flask_mega_tutorial-tasks', connection=app.redis)
+    app.task_queue = rq.Queue(app.config['REDIS_WORKER_NAME'], connection=app.redis)
 
     # blueprints
     from app.errors import blueprint as errors_blueprint
@@ -101,6 +107,5 @@ def create_app(config_class=Config):
 @babel.localeselector
 def get_locale():
     return request.accept_languages.best_match(current_app.config['LANGUAGES'])
-    # return 'en'
 
 from app import models

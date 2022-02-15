@@ -7,3 +7,4 @@ messages.pot
 wsl_venv/
 .env
 app/translations/pt/LC_MESSAGES/messages.mo
+logs/

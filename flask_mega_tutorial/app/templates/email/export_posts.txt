@@ -1,0 +1,6 @@
+{{ _('Dear') }} {{ user.username }},
+
+{{ _('The requested archive of your posts is attached to this message.') }}
+
+
+Flask Mega Tutorial

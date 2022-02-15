@@ -296,3 +296,14 @@ def notifications():
     json_notifications = flask.jsonify(j)
 
     return json_notifications    
+
+@blueprint.route('/export_posts')
+@login_required
+def export_posts():
+    if flask_login.current_user.get_task_in_progress('export_posts'):
+        flask.flash(_('An export task is already in progress.'))
+    else:
+        flask_login.current_user.launch_task('export_posts', _('Exporting posts...'))
+        db.session.commit()
+    
+    return flask.redirect(flask.url_for('main.user', username=flask_login.current_user.username))

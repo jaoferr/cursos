@@ -1,8 +1,8 @@
-"""added tasks support
+"""added background tasks support
 
-Revision ID: 8e28fd1cd1af
+Revision ID: b67e3989a52c
 Revises: 2d7140c28bb4
-Create Date: 2022-02-15 10:50:46.388174
+Create Date: 2022-02-15 13:49:35.167998
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '8e28fd1cd1af'
+revision = 'b67e3989a52c'
 down_revision = '2d7140c28bb4'
 branch_labels = None
 depends_on = None

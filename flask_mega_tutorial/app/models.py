@@ -11,7 +11,9 @@ import rq
 import app.search as app_search
 import werkzeug.security as security
 
+from flask import g
 from flask import current_app
+
 
 
 class SearchableMixin(object):
@@ -93,6 +95,7 @@ class User(flask_login.UserMixin, db.Model):
         backref='recipient', lazy='dynamic'
     )
     notifications = db.relationship('Notification', backref='user', lazy='dynamic')
+    tasks = db.relationship('Task', backref='user', lazy='dynamic')
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -161,6 +164,7 @@ class User(flask_login.UserMixin, db.Model):
         return n
 
     def launch_task(self, name: str, description: str, *args, **kwargs):
+        kwargs['locale'] = g.locale
         rq_job = current_app.task_queue.enqueue('app.tasks.' + name, self.id, *args, **kwargs)
         task = Task(id=rq_job.get_id(), name=name, description=description, user=self)
         db.session.add(task)
@@ -201,7 +205,6 @@ class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    # timestamp = db.Column(db.Float, index=True, default=time)
     timestamp = db.Column(db.Float(precision=6), index=True, default=datetime.now().timestamp)
     payload_json = db.Column(db.Text)
 
