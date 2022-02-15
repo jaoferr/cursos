@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-02-12 09:59-0300\n"
+"POT-Creation-Date: 2022-02-15 15:35-0300\n"
 "PO-Revision-Date: 2022-01-12 08:07-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -132,7 +132,7 @@ msgstr "Mensagem"
 msgid "Posted!"
 msgstr "Postado!"
 
-#: app/main/routes.py:86 app/templates/base.html:90
+#: app/main/routes.py:86 app/templates/base.html:125
 msgid "Explore"
 msgstr "Explorar"
 
@@ -176,13 +176,21 @@ msgstr "Não está mais seguindo %(username)s."
 msgid "Results"
 msgstr "Resultados"
 
-#: app/main/routes.py:243
+#: app/main/routes.py:244
 msgid "Your message has been sent."
 msgstr "Mensagem enviada."
 
-#: app/main/routes.py:247
+#: app/main/routes.py:248
 msgid "Send a message"
 msgstr "Envie uma mensagem"
+
+#: app/main/routes.py:304
+msgid "An export task is already in progress."
+msgstr "Uma exportação já está em progresso."
+
+#: app/main/routes.py:306
+msgid "Exporting posts..."
+msgstr "Exportando posts..."
 
 #: app/templates/_post.html:16
 #, python-format
@@ -193,19 +201,19 @@ msgstr "%(username)s disse %(when)s"
 msgid "Translate"
 msgstr "Traduzir"
 
-#: app/templates/base.html:19
+#: app/templates/base.html:20
 msgid "Error: Could not contact server."
 msgstr "Não possível conectar ao servidor."
 
-#: app/templates/base.html:89
+#: app/templates/base.html:124
 msgid "Home"
 msgstr "Home"
 
-#: app/templates/base.html:103 app/templates/messages.html:4
+#: app/templates/base.html:140 app/templates/messages.html:4
 msgid "Messages"
 msgstr "Mensagens"
 
-#: app/templates/base.html:104
+#: app/templates/base.html:149
 msgid "Profile"
 msgstr "Perfil"
 
@@ -214,11 +222,11 @@ msgstr "Perfil"
 msgid "Hi, %(username)s!"
 msgstr "Olá, %(username)s!"
 
-#: app/templates/index.html:19 app/templates/user.html:56
+#: app/templates/index.html:19 app/templates/user.html:58
 msgid "Recent"
 msgstr "Recentes"
 
-#: app/templates/index.html:24 app/templates/user.html:61
+#: app/templates/index.html:24 app/templates/user.html:63
 msgid "Older"
 msgstr "Mais antigos"
 
@@ -247,10 +255,6 @@ msgstr "Próximos"
 msgid "Send a message to %(recipient)s"
 msgstr "Envie uma mensagem para %(recipient)s"
 
-#: app/templates/user.html:8
-msgid "User"
-msgstr "Usuário"
-
 #: app/templates/user.html:14
 msgid "Last seen on:"
 msgstr "Visto por último: "
@@ -263,7 +267,11 @@ msgstr "seguidores,"
 msgid "following"
 msgstr "seguindo"
 
-#: app/templates/user.html:40
+#: app/templates/user.html:22
+msgid "Export your posts"
+msgstr "Exporte seus posts"
+
+#: app/templates/user.html:42
 msgid "Send a private message"
 msgstr "Envie uma mensagem privada"
 
@@ -308,6 +316,35 @@ msgstr "Esqueceu sua senha?"
 msgid "Reset it here."
 msgstr "Redefina-a aqui."
 
+#: app/templates/email/export_posts.html:1
+msgid "Dear"
+msgstr "Caro"
+
+#: app/templates/email/export_posts.html:3
+msgid "The requested archive of your posts is attached to this message."
+msgstr "O arquivo com seus posts encontra-se anexo à esta mensagem."
+
+#: app/templates/email/reset_password.html:1
+msgid "Hello"
+msgstr "Olá"
+
+#: app/templates/email/reset_password.html:4
+#, fuzzy
+msgid "To reset your password,"
+msgstr "Redefina sua senha"
+
+#: app/templates/email/reset_password.html:11
+msgid ""
+"If the link above doesn't work, try pasting the following in your browser"
+" address bar:"
+msgstr ""
+"Se o link acima não funcionar, tente colar o seguinte na barra de "
+"endereço do seu navegador:"
+
+#: app/templates/email/reset_password.html:15
+msgid "If you have not requested a password reset, ignore this message."
+msgstr "Se você não pediu a redefinição de sua senha, ignore esta messangem."
+
 #: app/templates/errors/404.html:4
 msgid "Page not found"
 msgstr "Página não encontrada"
@@ -323,4 +360,10 @@ msgstr "Os administradores foram notificados."
 #: app/templates/errors/500.html:6
 msgid "Back"
 msgstr "Voltar"
+
+#~ msgid "User"
+#~ msgstr "Usuário"
+
+#~ msgid "Your posts"
+#~ msgstr "Seus posts"
 
