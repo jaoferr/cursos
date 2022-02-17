@@ -1,7 +1,6 @@
 import flask
 import flask_login
 import langdetect
-import werkzeug.urls
 import app.main.forms as main_forms
 from flask import current_app
 from app.main import blueprint
@@ -283,9 +282,9 @@ def messages():
 @blueprint.route('/notifications')
 @login_required
 def notifications():
-    since = flask.request.args.get('since', 0.0, type=float)
+    since = flask.request.args.get('since', 0.0, type=int)
     notifications = flask_login.current_user.notifications.filter(
-        models.Notification.timestamp > since)
+        models.Notification.timestamp >= since)
     notifications = notifications.order_by(models.Notification.timestamp.asc())
 
     j = [{

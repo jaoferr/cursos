@@ -74,16 +74,17 @@
                 setInterval(function() {
                     $.ajax('{{ url_for('main.notifications') }}?since=' + since).done(
                         function(notifications) {
+                            // console.log(notifications.length)
                             for (var i = 0; i < notifications.length; i++) {
                                 switch (notifications[i].name){
                                     case 'unread_message_count':
                                         set_message_count(notifications[i].data);
-                                        break;
+                                        continue;
                                     case 'task_progress':
                                         set_task_progress(
                                             notifications[i].data.task_id,
                                             notifications[i].data.progress);
-                                        break;
+                                        continue;
                                 }
                                 since = notifications[i].timestamp;
                             }
