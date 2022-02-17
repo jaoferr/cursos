@@ -282,7 +282,7 @@ class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), index=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    timestamp = db.Column(db.Float(precision=6), index=True, default=datetime.now().timestamp)
+    timestamp = db.Column(db.Integer, index=True, default=datetime.now().timestamp)
     payload_json = db.Column(db.Text)
 
     def get_data(self):

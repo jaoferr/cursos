@@ -23,7 +23,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 db = SQLAlchemy()
-migrate = Migrate()
+migrate = Migrate(compare_type=True)
 login = LoginManager()
 login.login_view = 'auth.login'
 login.login_message = _l(login.login_message)
