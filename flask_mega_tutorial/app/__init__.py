@@ -17,7 +17,7 @@ from logging.handlers import SMTPHandler
 from logging.handlers import RotatingFileHandler
 from datetime import datetime
 from redis import Redis
-from typing import TYPE_CHECKING
+
 
 app = Flask(__name__)
 app.config.from_object(Config)

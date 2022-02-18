@@ -1,0 +1,80 @@
+services:
+    flask_mega_tutorial:
+        container_name: flask_mega_tutorial
+        stdin_open: true
+        tty: true
+        ports:
+            - '8000:5000'
+        environment:
+            - SECRET_KEY=my-secret-key
+            - MAIL_SERVER=mailhog
+            - MAIL_PORT=1025
+            - 'DATABASE_URL=mysql+pymysql://flask_mega_tutorial:36,a@dbserver/flask_mega_tutorial'
+            - 'ELASTICSEARCH_URL=http://elasticsearch:9200'
+            - 'REDIS_URL=redis://redis-server:6379/0'
+        links:
+            - "redis:redis-server"
+        image: 'flask_mega_tutorial:latest'
+
+    redis:
+        container_name: redis-server
+        stdin_open: true
+        tty: true
+        ports:
+            - '6379:6379'
+        restart: on-failure
+        image: 'redis:latest'
+
+    elasticsearch:
+        container_name: elasticsearch
+        stdin_open: true
+        tty: true
+        ports:
+            - '9200:9200'
+            - '9300:9300'
+        environment:
+            - discovery.type=single-node
+        image: 'docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2'
+
+    dbserver:
+        container_name: mysql
+        stdin_open: true
+        tty: true
+        ports:
+            - '3307:3307'
+        environment:
+            - MYSQL_RANDOM_ROOT_PASSWORD=yes
+            - MYSQL_DATABASE=flask_mega_tutorial
+            - MYSQL_USER=flask_mega_tutorial
+            - 'MYSQL_PASSWORD=36,a'
+        image: 'mysql/mysql-server:latest'
+        volumes:
+            - mysql-datavolume:/media/storage/docker/mysql-data
+    
+    worker:
+        container_name: rq-worker
+        stdin_open: true
+        tty: true
+        environment:
+            - SECRET_KEY=my-secret-key
+            - MAIL_SERVER=mailhog
+            - MAIL_PORT=1025
+            - 'DATABASE_URL=mysql+pymysql://flask_mega_tutorial:36,a@dbserver/flask_mega_tutorial'
+            - 'REDIS_URL=redis://redis-server:6379/0'
+        links:
+            - "redis:redis-server"
+        entrypoint:
+            # - home/flask_mega_tutorial/venv/bin/rq worker -u redis://redis-server:6379/0 flask_mega_tutorial-tasks
+            - home/flask_mega_tutorial/venv/bin/rq flask_mega_tutorial:latest worker -u redis://redis-server:6379/0 flask_mega_tutorial-tasks
+        image: flask_mega_tutorial:latest
+
+    mailserver:
+        container_name: mailhog
+        stdin_open: true
+        tty: true
+        ports:
+            - '8025:8025'
+            - '1025:1025'
+        image: mailhog/mailhog
+volumes:
+    mysql-datavolume:
