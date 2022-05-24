@@ -1,0 +1,58 @@
+# mysql
+docker run -p 3306:3306 --name mysql -dit -e MYSQL_RANDOM_ROOT_PASSWORD=yes \
+    -e MYSQL_DATABASE=flask_mega_tutorial -e MYSQL_USER=flask_mega_tutorial \
+    -e MYSQL_PASSWORD=1a,4 \
+    mysql/mysql-server:latest
+
+# flask app
+docker run --name flask_mega_tutorial -dit -p 8000:5000 \
+	-e SECRET_KEY=my-secret-key \
+	-e MAIL_SERVER=localhost -e MAIL_PORT=8025 \
+	--link mysql:dbserver --link redis-server \
+    -e DATABASE_URL=mysql+pymysql://flask_mega_tutorial:1a,4@dbserver/flask_mega_tutorial \
+    --link elasticsearch:elasticsearch \
+	-e ELASTICSEARCH_URL=http://elasticsearch:9200 \
+	-e REDIS_URL=redis://redis-server:6379/0 \
+	-e FLASK_ENV=development \
+    flask_mega_tutorial:latest
+
+# rq workers
+docker run --name rq-worker -dit \
+	--network=flask_mega_tutorial_default \
+	-e SECRET_KEY=my-secret-key \
+	-e MAIL_SERVER=localhost -e MAIL_PORT=1025 \
+	--link mysql:dbserver --link redis-server \
+	-e DATABASE_URL=mysql+pymysql://flask_mega_tutorial:1a,4@dbserver/flask_mega_tutorial \
+	-e REDIS_URL=redis://redis-server:6379/0 \
+	--entrypoint venv/bin/rq \
+	flask_mega_tutorial:latest worker -u redis://redis-server:6379/0 flask_mega_tutorial-tasks
+
+# elasticsearch
+docker run --name elasticsearch -dit -p 9200:9200 -p 9300:9300 \
+    -e "discovery.type=single-node" \
+    docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
+
+# redis-server
+docker run --name=redis-server -dit -p=6379:6379 --hostname=redis --restart=on-failure redis:latest
+
+#mail hog
+docker run --name=mailhog -dit -p=8025:8025 -p=1025:1025 \
+   mailhog/mailhog
+
+
+# db conn string
+mysql://flask_mega_tutorial:1a,4@dbserver/flask_mega_tutorial
+
+
+
+# mail server
+python -m smtpd -n -c DebuggingServer localhost:8025
+# active containers
+docker ps --format "ID: {{.ID}} \tName: {{.Names}}"
+# connect to mysql shell
+docker exec -it mysql bash
+mysql -u flask_mega_tutorial -p 
+to attach
+	docker attach <container name>
+to detach without stopping
+	ctrl + p, ctrl + q
